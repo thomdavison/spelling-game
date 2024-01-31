@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/spelling-game/static/css/main.752f825f.css",
-    "main.js": "/spelling-game/static/js/main.831eaa1f.js",
+    "main.js": "/spelling-game/static/js/main.20787a03.js",
     "static/js/787.9d714709.chunk.js": "/spelling-game/static/js/787.9d714709.chunk.js",
+    "static/media/words_alpha.txt": "/spelling-game/static/media/words_alpha.5ca7079a16ef11307028.txt",
     "index.html": "/spelling-game/index.html",
     "main.752f825f.css.map": "/spelling-game/static/css/main.752f825f.css.map",
-    "main.831eaa1f.js.map": "/spelling-game/static/js/main.831eaa1f.js.map",
+    "main.20787a03.js.map": "/spelling-game/static/js/main.20787a03.js.map",
     "787.9d714709.chunk.js.map": "/spelling-game/static/js/787.9d714709.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.752f825f.css",
-    "static/js/main.831eaa1f.js"
+    "static/js/main.20787a03.js"
   ]
 }

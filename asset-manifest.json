@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/spelling-game/static/css/main.752f825f.css",
+    "main.js": "/spelling-game/static/js/main.831eaa1f.js",
+    "static/js/787.9d714709.chunk.js": "/spelling-game/static/js/787.9d714709.chunk.js",
+    "index.html": "/spelling-game/index.html",
+    "main.752f825f.css.map": "/spelling-game/static/css/main.752f825f.css.map",
+    "main.831eaa1f.js.map": "/spelling-game/static/js/main.831eaa1f.js.map",
+    "787.9d714709.chunk.js.map": "/spelling-game/static/js/787.9d714709.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.752f825f.css",
+    "static/js/main.831eaa1f.js"
+  ]
+}

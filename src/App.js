@@ -20,6 +20,7 @@ function App() {
     const consonants = ["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"]
 
     var pickedLetters = []
+    var theresAQ = false
     for (var i = 0; i < 9; i++) {
       var chosenLetter = ""
       var letterIndex = 0
@@ -27,8 +28,15 @@ function App() {
         chosenLetter = consonants[Math.floor(Math.random() * consonants.length)]
         letterIndex = consonants.indexOf(chosenLetter)
         consonants.splice(letterIndex, 1)
+        if (chosenLetter === "Q") {
+          theresAQ = true
+        }
       } else {
         chosenLetter = vowels[Math.floor(Math.random() * vowels.length)]
+        if (theresAQ) {
+          chosenLetter = "U"
+          theresAQ = false
+        }
         letterIndex = vowels.indexOf(chosenLetter)
         vowels.splice(letterIndex, 1)
       }

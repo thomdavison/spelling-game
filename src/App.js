@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Board from './components/Board';
+import { generateWordSet } from './Words';
 
 function App() {
 
@@ -10,24 +11,37 @@ function App() {
   const [submittedWords, setSubmittedWords] = useState([])
   const [centerLetter, setCenterLetter] = useState("N")
   const [words, setWords] = useState(null)
+  const [wordSet, setWordSet] = useState(new Set());
 
   const handleTileClick = (index) => {
     setCurrentWord(currentWord + letters[index])
   };
 
   useEffect(() => {
-    const vowels = ["A", "E", "I", "O", "U"]
-    const consonants = ["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"]
+    generateWordSet().then((words) => {
+      setWordSet(words.wordSet);
+    });
+  }, []);
 
+  useEffect(() => {
+    const vowels = ["A", "E", "I", "O", "U"]
+    const consonants = ["B", "C", "D", "F", "G", "H", "L", "M", "N", "P", "R", "S", "T", "V", "W"]
+    const trickyLetters = ["J", "K", "Q", "X", "Y", "Z"]
     var pickedLetters = []
     var theresAQ = false
     for (var i = 0; i < 9; i++) {
       var chosenLetter = ""
       var letterIndex = 0
       if (i < 6) {
-        chosenLetter = consonants[Math.floor(Math.random() * consonants.length)]
-        letterIndex = consonants.indexOf(chosenLetter)
-        consonants.splice(letterIndex, 1)
+        if (Math.random() < 0.9) {
+          chosenLetter = consonants[Math.floor(Math.random() * consonants.length)]
+          letterIndex = consonants.indexOf(chosenLetter)
+          consonants.splice(letterIndex, 1)
+        } else {
+          chosenLetter = trickyLetters[Math.floor(Math.random() * trickyLetters.length)]
+          letterIndex = trickyLetters.indexOf(chosenLetter)
+          trickyLetters.splice(letterIndex, 1)
+        }
         if (chosenLetter === "Q") {
           theresAQ = true
         }
@@ -45,30 +59,34 @@ function App() {
     }
 
     setLetters(pickedLetters)
+    setCenterLetter(pickedLetters[4])
   }, [])
 
-  useEffect(() => {
-    var checkWord = require('check-if-word')
-    setWords(checkWord('en'))
-  }, [])
+  // useEffect(() => {
+  //   var checkWord = require('check-if-word')
+  //   setWords(checkWord('en'))
+  // }, [])
 
   const submit = () => {
     if (currentWord === "" || currentWord.length < 3) {
+      console.log("current word too short")
       return
     }
 
     if (!currentWord.includes(centerLetter)) {
       //TODO: maybe show error message?
+      console.log("current word doesn't include center letter")
+      alert("current word doesn't include center letter")
       return
     }
 
     if (submittedWords.includes(currentWord)) {
+      console.log("word already submitted")
       return
     }
 
-    if (!words.check(currentWord)) {
+    if (!wordSet.has(currentWord.toLowerCase())) {
       //TODO: show its not a real word
-      console.log("Not a real word")
       return
     }
 

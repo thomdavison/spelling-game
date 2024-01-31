@@ -37,30 +37,28 @@ function Board({ score, letters, currentWord, onTileClick, submit, submittedWord
             <div className='submittedWords'>
                 <h3>{word}</h3>
             </div>
-            <div >
-                <div className='row'>
-                    <LetterCell value={letters[0]} onClick={() => onTileClick(0)} />
-                    <LetterCell value={letters[1]} onClick={() => onTileClick(1)} />
-                    <LetterCell value={letters[2]} onClick={() => onTileClick(2)} />
-                </div>
-                <div className='row'>
-                    <LetterCell value={letters[3]} onClick={() => onTileClick(3)} />
-                    <LetterCell isCenterLetter={true} value={letters[4]} onClick={() => onTileClick(4)} />
-                    <LetterCell value={letters[5]} onClick={() => onTileClick(5)} />
-                </div>
-                <div className='row'>
-                    <LetterCell value={letters[6]} onClick={() => onTileClick(6)} />
-                    <LetterCell value={letters[7]} onClick={() => onTileClick(7)} />
-                    <LetterCell value={letters[8]} onClick={() => onTileClick(8)} />
-                </div>
-                <div className='row'>
-                    <button onClick={deleteFunc}>Delete</button>
-                    <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button>
-                    <button onClick={submit}>Submit</button>
-                </div>
+            <div className='row'>
+                <LetterCell value={letters[0]} onClick={() => onTileClick(0)} />
+                <LetterCell value={letters[1]} onClick={() => onTileClick(1)} />
+                <LetterCell value={letters[2]} onClick={() => onTileClick(2)} />
             </div>
-
+            <div className='row'>
+                <LetterCell value={letters[3]} onClick={() => onTileClick(3)} />
+                <LetterCell isCenterLetter={true} value={letters[4]} onClick={() => onTileClick(4)} />
+                <LetterCell value={letters[5]} onClick={() => onTileClick(5)} />
+            </div>
+            <div className='row'>
+                <LetterCell value={letters[6]} onClick={() => onTileClick(6)} />
+                <LetterCell value={letters[7]} onClick={() => onTileClick(7)} />
+                <LetterCell value={letters[8]} onClick={() => onTileClick(8)} />
+            </div>
+            <div className='button-row'>
+                <button onClick={deleteFunc}>Delete</button>
+                <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button>
+                <button onClick={submit}>Submit</button>
+            </div>
         </div>
+
     )
 }
 

@@ -59,6 +59,42 @@
   background-color: #ffd4a1;
 }
 
+.rankCircle {
+  /* margin-top: 10px; */
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 2px solid darkorange;
+  color: black;
+  /* background-color: #FFFFFF; */
+  height: 50px;
+  width: 50px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+.rankCircle-selected {
+  border-radius: 50%;
+  background-color: darkorange;
+  border: 2px solid darkorange;
+  color: black;
+
+  height: 50px;
+  width: 50px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 48px; */
+  cursor: pointer;
+}
+
+
 .currentWord {
   display: flex;
   align-items: center;
@@ -111,7 +147,20 @@
 }
 
 .score {
+  display: flex;
   color: darkorange;
+  padding: 0px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.rank {
+  display: flex;
+  padding: 0px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -142,4 +191,20 @@ button:active {
 
 :focus {
   outline: none !important;
+}
+
+.allSubmittedWordsContainer {
+  display: flex;
+  height: 340px;
+  width: 50%;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.allSubmittedWords {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-rows: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
+  ;
 }

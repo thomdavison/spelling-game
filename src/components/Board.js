@@ -2,14 +2,17 @@ import React from 'react'
 import LetterCell from './LetterCell'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShuffle } from '@fortawesome/free-solid-svg-icons'
+import { faShuffle, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import Rank from './Rank'
 
-function Board({ score, letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle }) {
+function Board({ score, letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState }) {
     let word = ""
+
+    let words = submittedWords
 
     if (submittedWords.length > 0) {
 
-        let words = submittedWords
+
         if (submittedWords.length > 4) {
             words = submittedWords.slice(-4)
         }
@@ -28,13 +31,12 @@ function Board({ score, letters, currentWord, onTileClick, submit, submittedWord
 
     return (
         <div>
-            <div className='score'>
-                <h1>{score}</h1>
-            </div>
+            <Rank score={score} />
             <div className='currentWord'>
                 <h1>{currentWord}</h1>
             </div>
             <div className='submittedWords'>
+                {submittedWords.length > 4 && <FontAwesomeIcon icon={faClockRotateLeft} onClick={() => updateGameState("submittedWords")} />}
                 <h3>{word}</h3>
             </div>
             <div className='row'>

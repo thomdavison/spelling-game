@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Board from './components/Board';
 import { generateWordSet } from './Words';
+import SubmittedWords from './components/SubmittedWords';
 
 function App() {
 
@@ -12,10 +13,15 @@ function App() {
   const [centerLetter, setCenterLetter] = useState("N")
   const [words, setWords] = useState(null)
   const [wordSet, setWordSet] = useState(new Set());
+  const [gameState, setGameState] = useState("board")
 
   const handleTileClick = (index) => {
     setCurrentWord(currentWord + letters[index])
   };
+
+  const updateGameState = (gameState) => {
+    setGameState(gameState)
+  }
 
   useEffect(() => {
     generateWordSet().then((words) => {
@@ -62,13 +68,9 @@ function App() {
     setCenterLetter(pickedLetters[4])
   }, [])
 
-  // useEffect(() => {
-  //   var checkWord = require('check-if-word')
-  //   setWords(checkWord('en'))
-  // }, [])
 
   const submit = () => {
-    if (currentWord === "" || currentWord.length < 3) {
+    if (currentWord === "" || currentWord.length < 4) {
       console.log("current word too short")
       return
     }
@@ -90,7 +92,9 @@ function App() {
       return
     }
 
-    setScore(score + currentWord.length)
+    var calculatedScore = currentWord.length > 4 ? currentWord.length : 1
+
+    setScore(score + calculatedScore)
     setSubmittedWords([...submittedWords, currentWord])
     setCurrentWord("")
 
@@ -127,18 +131,30 @@ function App() {
     setLetters(shuffled)
   }
 
-  return (
-    <div className="App">
-      <Board letters={letters}
-        score={score}
-        currentWord={currentWord}
-        onTileClick={handleTileClick}
-        submit={submit}
-        submittedWords={submittedWords}
-        deleteFunc={deleteFunc}
-        shuffle={shuffle} />
-    </div>
-  );
+  if (gameState == "" || gameState == "board") {
+    return (
+      <div className="App">
+        <Board
+          letters={letters}
+          score={score}
+          currentWord={currentWord}
+          onTileClick={handleTileClick}
+          submit={submit}
+          submittedWords={submittedWords}
+          deleteFunc={deleteFunc}
+          shuffle={shuffle}
+          updateGameState={updateGameState} />
+      </div>
+    );
+  } else if (gameState == "submittedWords") {
+    return (
+      <div className="App">
+        <SubmittedWords
+          updateGameState={updateGameState}
+          submittedWords={submittedWords} />
+      </div>
+    );
+  }
 }
 
 export default App;

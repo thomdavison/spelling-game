@@ -35,8 +35,7 @@ function Board({ score, letters, currentWord, onTileClick, submit, submittedWord
             <div className='currentWord'>
                 <h1>{currentWord}</h1>
             </div>
-            <div className='submittedWords'>
-                {submittedWords.length > 4 && <FontAwesomeIcon icon={faClockRotateLeft} onClick={() => updateGameState("submittedWords")} />}
+            <div className='submittedWords' onClick={() => updateGameState("submittedWords")} >
                 <h3>{word}</h3>
             </div>
             <div className='row'>

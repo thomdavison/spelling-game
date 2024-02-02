@@ -1,12 +1,13 @@
-import wordBank from "./words_alpha.txt";
+import wordBank from "./data/words_alpha.txt";
 
 export const generateWordSet = async () => {
     let wordSet;
+    let wordArr
     await fetch(wordBank)
         .then((response) => response.text())
         .then((result) => {
-            const wordArr = result.split("\n");
+            wordArr = result.split("\n");
             wordSet = new Set(wordArr);
         });
-    return { wordSet };
+    return { wordSet, wordArr };
 };

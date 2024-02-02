@@ -11,7 +11,6 @@ function App() {
   const [currentWord, setCurrentWord] = useState("")
   const [submittedWords, setSubmittedWords] = useState([])
   const [centerLetter, setCenterLetter] = useState("N")
-  const [words, setWords] = useState(null)
   const [wordSet, setWordSet] = useState(new Set());
   const [gameState, setGameState] = useState("board")
 
@@ -31,15 +30,16 @@ function App() {
 
   useEffect(() => {
     const vowels = ["A", "E", "I", "O", "U"]
-    const consonants = ["B", "C", "D", "F", "G", "H", "L", "M", "N", "P", "R", "S", "T", "V", "W"]
-    const trickyLetters = ["J", "K", "Q", "X", "Y", "Z"]
+    const consonants = ["B", "C", "D", "F", "G", "H", "L", "M", "N", "P", "R", "S", "T"]
+    const trickyLetters = ["J", "K", "Q", "V", "W", "X", "Y", "Z"]
     var pickedLetters = []
     var theresAQ = false
     for (var i = 0; i < 9; i++) {
       var chosenLetter = ""
       var letterIndex = 0
       if (i < 6) {
-        if (Math.random() < 0.9) {
+        // always make sure the centre letter is not a tricky letter
+        if (i == 4 || Math.random() < 0.9) {
           chosenLetter = consonants[Math.floor(Math.random() * consonants.length)]
           letterIndex = consonants.indexOf(chosenLetter)
           consonants.splice(letterIndex, 1)
@@ -63,6 +63,7 @@ function App() {
 
       pickedLetters.push(chosenLetter)
     }
+
 
     setLetters(pickedLetters)
     setCenterLetter(pickedLetters[4])
@@ -88,7 +89,7 @@ function App() {
     }
 
     if (!wordSet.has(currentWord.toLowerCase())) {
-      //TODO: show its not a real word
+      console.log("word not in dictionary")
       return
     }
 

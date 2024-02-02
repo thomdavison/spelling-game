@@ -119741,12 +119741,6 @@ fuci
 fucinita
 fuciphagous
 fucivorous
-fuck
-fucked
-fucker
-fucking
-fucks
-fuckwit
 fucoid
 fucoidal
 fucoideae
@@ -193939,7 +193933,6 @@ motherdom
 mothered
 motherer
 motherers
-motherfucker
 mothergate
 motherhood
 motherhouse

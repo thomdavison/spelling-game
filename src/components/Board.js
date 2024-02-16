@@ -1,18 +1,21 @@
 import React from 'react'
-import LetterCell from './LetterCell'
+import { motion } from "framer-motion"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShuffle, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faShuffle } from '@fortawesome/free-solid-svg-icons'
 import Rank from './Rank'
 
-function Board({ score, letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState }) {
+function Board({ score, letters, currentWord, onTileClick, submit, submittedWords, deleteFunc, shuffle, updateGameState, submittedInvalidWord }) {
+
+    const spring = {
+        type: "spring",
+        damping: 25,
+        stiffness: 120
+    };
+
     let word = ""
-
     let words = submittedWords
-
     if (submittedWords.length > 0) {
-
-
         if (submittedWords.length > 4) {
             words = submittedWords.slice(-4)
         }
@@ -28,37 +31,44 @@ function Board({ score, letters, currentWord, onTileClick, submit, submittedWord
         }
     }
 
-
     return (
         <div>
             <Rank score={score} />
             <div className='currentWord'>
-                <h1>{currentWord}</h1>
+                <motion.h1
+                    animate={{ x: submittedInvalidWord ? 1 : -1 }}
+                    transition={{ type: "spring", bounce: 10 }}>
+                    {currentWord}
+                </motion.h1>
             </div>
             <div className='submittedWords' onClick={() => updateGameState("submittedWords")} >
-                <h3>{word}</h3>
+                <motion.h3
+                    animate={{ x: 1 }}
+                    transition={{ type: "spring", bounce: 5 }}>
+                    {word}
+                </motion.h3>
             </div>
             <div className='row'>
-                <LetterCell value={letters[0]} onClick={() => onTileClick(0)} />
-                <LetterCell value={letters[1]} onClick={() => onTileClick(1)} />
-                <LetterCell value={letters[2]} onClick={() => onTileClick(2)} />
-            </div>
-            <div className='row'>
-                <LetterCell value={letters[3]} onClick={() => onTileClick(3)} />
-                <LetterCell isCenterLetter={true} value={letters[4]} onClick={() => onTileClick(4)} />
-                <LetterCell value={letters[5]} onClick={() => onTileClick(5)} />
-            </div>
-            <div className='row'>
-                <LetterCell value={letters[6]} onClick={() => onTileClick(6)} />
-                <LetterCell value={letters[7]} onClick={() => onTileClick(7)} />
-                <LetterCell value={letters[8]} onClick={() => onTileClick(8)} />
+                <ul>
+                    {letters.map((letter) => (
+                        <motion.h1
+                            id={letter.isCentreLetter ? 'center-letter' : ''}
+                            className="letter"
+                            key={letter.id}
+                            layout
+                            transition={spring}
+                            onClick={() => onTileClick(letter)}>
+                            {letter.value}
+                        </motion.h1>
+                    ))}
+                </ul>
             </div>
             <div className='button-row'>
                 <button onClick={deleteFunc}>Delete</button>
                 <button onClick={shuffle}><FontAwesomeIcon icon={faShuffle} /></button>
                 <button onClick={submit}>Submit</button>
             </div>
-        </div>
+        </div >
 
     )
 }

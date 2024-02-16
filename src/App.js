@@ -7,15 +7,19 @@ import SubmittedWords from './components/SubmittedWords';
 function App() {
 
   const [score, setScore] = useState(0)
-  const [letters, setLetters] = useState(["R", "A", "I", "G", "N", "T", "L", "E", "M"])
+  const [letters, setLetters] = useState([])
   const [currentWord, setCurrentWord] = useState("")
   const [submittedWords, setSubmittedWords] = useState([])
-  const [centerLetter, setCenterLetter] = useState("N")
+  const [centerLetter, setCenterLetter] = useState("")
   const [wordSet, setWordSet] = useState(new Set());
   const [gameState, setGameState] = useState("board")
+  const [submittedInvalidWord, setSubmittedInvalidWord] = useState(false)
 
-  const handleTileClick = (index) => {
-    setCurrentWord(currentWord + letters[index])
+  let currentDate = new Date().toJSON().slice(0, 10);
+  const rand = require('random-seed').create(currentDate);
+
+  const handleTileClick = (letter) => {
+    setCurrentWord(currentWord + letter.value)
   };
 
   const updateGameState = (gameState) => {
@@ -39,12 +43,12 @@ function App() {
       var letterIndex = 0
       if (i < 6) {
         // always make sure the centre letter is not a tricky letter
-        if (i == 4 || Math.random() < 0.9) {
-          chosenLetter = consonants[Math.floor(Math.random() * consonants.length)]
+        if (i === 4 || rand(100) < 90) {
+          chosenLetter = consonants[rand(consonants.length)]
           letterIndex = consonants.indexOf(chosenLetter)
           consonants.splice(letterIndex, 1)
         } else {
-          chosenLetter = trickyLetters[Math.floor(Math.random() * trickyLetters.length)]
+          chosenLetter = trickyLetters[rand(trickyLetters.length)]
           letterIndex = trickyLetters.indexOf(chosenLetter)
           trickyLetters.splice(letterIndex, 1)
         }
@@ -52,7 +56,7 @@ function App() {
           theresAQ = true
         }
       } else {
-        chosenLetter = vowels[Math.floor(Math.random() * vowels.length)]
+        chosenLetter = vowels[rand(vowels.length)]
         if (theresAQ) {
           chosenLetter = "U"
           theresAQ = false
@@ -61,35 +65,41 @@ function App() {
         vowels.splice(letterIndex, 1)
       }
 
-      pickedLetters.push(chosenLetter)
+      var isCentreLetter = i === 4 ? true : false;
+      var letter = { "id": crypto.randomUUID(), "value": chosenLetter, "isCentreLetter": isCentreLetter }
+
+      pickedLetters.push(letter)
     }
 
 
     setLetters(pickedLetters)
-    setCenterLetter(pickedLetters[4])
+    setCenterLetter(pickedLetters[4].value)
   }, [])
 
 
   const submit = () => {
     if (currentWord === "" || currentWord.length < 4) {
       console.log("current word too short")
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
     if (!currentWord.includes(centerLetter)) {
       //TODO: maybe show error message?
       console.log("current word doesn't include center letter")
-      alert("current word doesn't include center letter")
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
     if (submittedWords.includes(currentWord)) {
       console.log("word already submitted")
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
     if (!wordSet.has(currentWord.toLowerCase())) {
       console.log("word not in dictionary")
+      setSubmittedInvalidWord(!submittedInvalidWord)
       return
     }
 
@@ -99,11 +109,9 @@ function App() {
     setSubmittedWords([...submittedWords, currentWord])
     setCurrentWord("")
 
-
   }
 
   const deleteFunc = () => {
-
     if (currentWord === "") {
       return
     }
@@ -120,8 +128,7 @@ function App() {
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value)
 
-    //TODO: make this neater
-    if (shuffled[4] !== centerLetter) {
+    if (!shuffled[4].isCentreLetter) {
       var wrongLetter = shuffled[4]
       var index = shuffled.indexOf(centerLetter)
 
@@ -132,7 +139,7 @@ function App() {
     setLetters(shuffled)
   }
 
-  if (gameState == "" || gameState == "board") {
+  if (gameState === "" || gameState === "board") {
     return (
       <div className="App">
         <Board
@@ -144,10 +151,11 @@ function App() {
           submittedWords={submittedWords}
           deleteFunc={deleteFunc}
           shuffle={shuffle}
-          updateGameState={updateGameState} />
+          updateGameState={updateGameState}
+          submittedInvalidWord={submittedInvalidWord} />
       </div>
     );
-  } else if (gameState == "submittedWords") {
+  } else if (gameState === "submittedWords") {
     return (
       <div className="App">
         <SubmittedWords

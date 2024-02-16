@@ -128,7 +128,7 @@ function App() {
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value)
 
-    if (!shuffled[4].isCentreLetter) {
+    if (shuffled[4] !== centerLetter) {
       var wrongLetter = shuffled[4]
       var index = shuffled.indexOf(centerLetter)
 
